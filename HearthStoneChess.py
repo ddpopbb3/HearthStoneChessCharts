@@ -5,6 +5,8 @@ from pyecharts.charts import Bar, Grid, Line, Scatter, Pie, Page
 import requests
 import os
 import json
+import codecs
+import re
 
 cateGoryDict = {
     "鱼人": 14,
@@ -48,6 +50,14 @@ def getTierList(map, cost):
             cateGoryList.append(card)
     return cateGoryList
 
+def getZhanhouList(map):
+    ZhanhouList = []
+    for card in map:
+        text = card["text"]
+        result = re.match("^<b>.*战吼：</b>", text)
+        if result != None:
+            ZhanhouList.append(card)
+    return ZhanhouList
 
 def count_charts(murlocList, mechList, demonList, beastList, nullList):
     bar = (Bar()
@@ -122,6 +132,9 @@ def downLoadPage():
     # print(map)
 
     # 解析战旗卡牌并分类
+    AnalyzeJsonDataAndDraw(list)
+
+def AnalyzeJsonDataAndDraw(list):
     heroList = getHeroList(list)
     slaveList = getSlaveList(list)
     murlocList = getListByCategory(slaveList, cateGoryDict["鱼人"])
@@ -133,6 +146,11 @@ def downLoadPage():
     # 解析卡牌星级
     murlocTierList = getTierList(slaveList, 1)
     print(len(murlocTierList))
+
+    # 解析卡牌特效
+    # 匹配 <b>战吼：</b>
+    ZhanhouList = getZhanhouList(slaveList)
+    print(len(ZhanhouList))
 
     # 绘制图表
     countBar = count_charts(murlocList, demonList, mechList, beastList, nullList)
@@ -161,7 +179,17 @@ def StringListSave(save_path, filename, slist):
         fp.write(slist)
 
 if __name__ == "__main__":
-    downLoadPage()
+    
+    # 远程调试
+    # downLoadPage()
+
+
+    # 本地调试
+
+    with open('战棋/英雄及卡牌全数据.json', 'rb') as f:
+        jsonContent = json.load(f) 
+    cardlist = jsonContent["cards"]
+    AnalyzeJsonDataAndDraw(cardlist)
 
 
 class Card:
