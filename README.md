@@ -14,7 +14,11 @@
 * 会在生成战棋目录, 存放有数据json
 * 会在当前目录下生成render.html, 可以预览图表
 
-![Image text](https://github.com/ddpopbb3/HearthStoneChessCharts/raw/master/img-folder/20191116015524.png)
+![Image text](https://github.com/ddpopbb3/HearthStoneChessCharts/raw/master/img-folder/微信截图_20191127010328.png)
+![Image text](https://github.com/ddpopbb3/HearthStoneChessCharts/raw/master/img-folder/微信截图_20191127010359.png)
+![Image text](https://github.com/ddpopbb3/HearthStoneChessCharts/raw/master/img-folder/微信截图_20191127010413.png)
+![Image text](https://github.com/ddpopbb3/HearthStoneChessCharts/raw/master/img-folder/微信截图_20191127010643.png)
+![Image text](https://github.com/ddpopbb3/HearthStoneChessCharts/raw/master/img-folder/微信截图_20191127010727.png)
 
 ## ⛏ 代码质量
 * emmmmm
