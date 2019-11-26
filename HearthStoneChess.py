@@ -151,58 +151,71 @@ def graph_base(slaveList) -> Graph:
             "name": "鱼人",
             "symbolSize": len(murlocList) * 5,
             "category": "鱼人",
+            "value": len(murlocList),
         },
         {
             "name": "恶魔",
             "symbolSize": len(demonList) * 5,
             "category": "恶魔",
+            "value": len(demonList),
         },
         {
             "name": "机械",
             "symbolSize": len(mechList) * 5,
             "category": "机械",
+            "value": len(mechList),
         },
         {
             "name": "野兽",
             "symbolSize": len(beastList) * 5,
             "category": "野兽",
+            "value": len(beastList),
         },
         {
             "name": "无种类",
             "symbolSize": len(nullList) * 5,
             "category": "无种类",
+            "value": len(nullList),
         },
         {
             "name": "战吼",
-            "symbolSize": len(BattleCryList) * 5
+            "symbolSize": len(BattleCryList) * 5,
+            "value": len(BattleCryList),
         },
         {
             "name": "嘲讽",
-            "symbolSize": len(TauntList) * 5
+            "symbolSize": len(TauntList) * 5,
+            "value": len(TauntList),
         },
         {
             "name": "圣盾",
-            "symbolSize": len(DivineShieldList) * 5
+            "symbolSize": len(DivineShieldList) * 5,
+            "value": len(DivineShieldList),
         },
         {
             "name": "磁力",
-            "symbolSize": len(MagneticList) * 5
+            "symbolSize": len(MagneticList) * 5,
+            "value": len(MagneticList),
         },
         {
             "name": "亡语",
-            "symbolSize": len(DeathRattleList) * 5
+            "symbolSize": len(DeathRattleList) * 5,
+            "value": len(DeathRattleList),
         },
         {
             "name": "剧毒",
-            "symbolSize": len(PoisonousList) * 5
+            "symbolSize": len(PoisonousList) * 5,
+            "value": len(PoisonousList),
         },
         {
             "name": "超杀",
-            "symbolSize": len(OverkillList) * 5
+            "symbolSize": len(OverkillList) * 5,
+            "value": len(OverkillList),
         },
         {
             "name": "风怒",
-            "symbolSize": len(WindFuryList) * 5
+            "symbolSize": len(WindFuryList) * 5,
+            "value": len(WindFuryList),
         },
     ]
     links = []
