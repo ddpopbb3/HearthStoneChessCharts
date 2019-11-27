@@ -12,15 +12,15 @@ cateGoryDict = {"鱼人": 14, "恶魔": 15, "机械": 17, "野兽": 20, "无种�
 
 effectPatternDict = {
     "战吼": "BattleCry",
-    "嘲讽": "Taunt",
+    "亡语": "DeathRattle",
     "圣盾": "DivineShield",
     "磁力": "Magnetic",
-    "亡语": "DeathRattle",
+    "嘲讽": "Taunt",
     "剧毒": "Poisonous",
-    "超杀": "Overkill",
     "风怒": "WindFury",
-    "复生": "Reborn",
-    # 下面这几种特效在战棋模式暂时没卵用，就不做统计了
+    "超杀": "Overkill",
+    # 下面这几种特效在战棋模式没卵用，就不做统计了
+    # "复生": "Reborn",
     # "冲锋": "Rush",
     # "突袭": "Lifesteal",
     # "过载": "Overload",
@@ -143,7 +143,6 @@ def effect_pie(slaveList) -> Pie:
 
 
 def categoryEffect_graph(slaveList) -> Graph:
-
     categories = []
     categories = getCategoryNodes(slaveList) + getEffectNodes(slaveList)
     links = []
@@ -192,7 +191,6 @@ def categoryEffect_graph(slaveList) -> Graph:
 
 
 def categoryTiert_graph(slaveList) -> Graph:
-
     categories = []
     categories = getCategoryNodes(slaveList) + getTierNodes(slaveList)
     links = []
@@ -339,9 +337,9 @@ def getCategoryNodes(slaveList):
     return categoryNodes
 
 
+# 解析卡牌特效
 def analyzeEffectSlaveCards(slaveList):
-    # # 解析卡牌特效
-    # # 匹配 战吼 嘲讽 等
+    # 匹配 战吼 嘲讽 等
     BattleCryList = getEffectList(slaveList, "战吼")
     print(len(BattleCryList))
     for z in BattleCryList:
@@ -410,16 +408,10 @@ def AnalyzeJsonDataAndDraw(list):
 
     # 解析随从卡牌列表
     slaveList = getCardList(list, False)
-    # murlocList = getListByCategory(slaveList, cateGoryDict["鱼人"])
-    # demonList = getListByCategory(slaveList, cateGoryDict["恶魔"])
-    # mechList = getListByCategory(slaveList, cateGoryDict["机械"])
-    # beastList = getListByCategory(slaveList, cateGoryDict["野兽"])
-    # nullList = getListByCategory(slaveList, cateGoryDict["无种类"])
 
     # 解析卡牌星级
 
-    # # 解析卡牌特效
-    # # 匹配 战吼 嘲讽 等
+    # 解析卡牌特效 匹配 战吼 嘲讽 等
     analyzeEffectSlaveCards(slaveList)
 
     # 绘制图表
@@ -435,9 +427,6 @@ def drawCharts(slaveList):
     categoryEffectGraph = categoryEffect_graph(slaveList)
     categoryTierGraph = categoryTiert_graph(slaveList)
     tierEffectGraph = tierEffect_graph(slaveList)
-    # page = Page(layout=Page.SimplePageLayout)
-    # page.add(countBar, tierBar, countPie, effectPie, relationGraph)
-    # page.render()
 
     tab = Tab()
     tab.add(countBar, "数量分布情况")
