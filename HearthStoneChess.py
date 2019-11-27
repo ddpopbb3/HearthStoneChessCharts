@@ -20,10 +20,13 @@ effectPatternDict = {
     "超杀": "Overkill",
     "风怒": "WindFury",
     "复生": "Reborn",
+    # 下面这几种特效在战棋模式暂时没卵用，就不做统计了
     # "冲锋": "Rush",
     # "突袭": "Lifesteal",
     # "过载": "Overload",
 }
+
+tierDict = {"一星怪": 1, "二星怪": 2, "三星怪": 3, "四星怪": 4, "五星怪": 5, "六星怪": 6}
 
 
 def getCardList(map, isHero):
@@ -63,33 +66,23 @@ def getEffectList(map, effect):
     return EffectWithDesciptionList
 
 
-def count_charts(murlocList, mechList, demonList, beastList, nullList):
+def count_charts(slaveList):
+    categoryCountList = []
+    for category in cateGoryDict.values():
+        categoryCountList.append(len(getListByCategory(slaveList, category)))
     bar = (Bar().add_xaxis(list(cateGoryDict.keys())).add_yaxis(
-        "数量", [
-            len(murlocList),
-            len(mechList),
-            len(demonList),
-            len(beastList),
-            len(nullList),
-        ],
-        color=Faker.rand_color()).set_global_opts(title_opts=opts.TitleOpts(
-            title="数量分布情况")))
+        "数量", categoryCountList, color=Faker.rand_color()).set_global_opts(
+            title_opts=opts.TitleOpts(title="数量分布情况")))
     return bar
 
 
 def tier_charts(slaveList):
-    bar = (Bar().add_xaxis(["一星怪", "二星怪", "三星怪", "四星怪", "五星怪",
-                            "六星怪"]).add_yaxis(
-                                "数量", [
-                                    len(getTierList(slaveList, 1)),
-                                    len(getTierList(slaveList, 2)),
-                                    len(getTierList(slaveList, 3)),
-                                    len(getTierList(slaveList, 4)),
-                                    len(getTierList(slaveList, 5)),
-                                    len(getTierList(slaveList, 6)),
-                                ],
-                                color='#FAD860').set_global_opts(
-                                    title_opts=opts.TitleOpts(title="费用分布情况")))
+    tierCountList = []
+    for tier in tierDict.values():
+        tierCountList.append(len(getTierList(slaveList, tier)))
+    bar = (Bar().add_xaxis(list(tierDict.keys())).add_yaxis(
+        "数量", tierCountList, color='#FAD860').set_global_opts(
+            title_opts=opts.TitleOpts(title="费用分布情况")))
     return bar
 
 
@@ -122,7 +115,7 @@ def effect_pie(slaveList) -> Pie:
 
 
 def graph_base(slaveList) -> Graph:
-    
+
     categories = []
     categories = getCategoryNodes(slaveList) + getEffectNodes(slaveList)
     links = []
@@ -130,7 +123,7 @@ def graph_base(slaveList) -> Graph:
     for category in cateGoryDict:
         for card in getListByCategory(slaveList, cateGoryDict[category]):
             links.append({"source": card.get("name"), "target": category})
-    
+
     for effect in effectPatternDict:
         for card in getEffectList(slaveList, effect):
             links.append({"source": card.get("name"), "target": effect})
@@ -140,13 +133,14 @@ def graph_base(slaveList) -> Graph:
         if i.get("minionTypeId") == 26:
             category = "无种类"
         else:
-            category = "无种类" if category == None else invert_dict(cateGoryDict)[i.get("minionTypeId")]
+            category = "无种类" if category == None else invert_dict(
+                cateGoryDict)[i.get("minionTypeId")]
         nodes.append({
             "name": i.get("name"),
             "symbolSize": 5,
             "category": category,
         })
-    
+
     nodes += categories
 
     c = (Graph(init_opts=opts.InitOpts(width="1600px", height="900px")).add(
@@ -163,6 +157,7 @@ def graph_base(slaveList) -> Graph:
                                                   pos_top="20%")))
     return c
 
+
 def getEffectNodes(slaveList):
     effectNodes = []
     for effect in effectPatternDict:
@@ -177,6 +172,7 @@ def getEffectNodes(slaveList):
             len(getEffectList(slaveList, effect)),
         })
     return effectNodes
+
 
 def getCategoryNodes(slaveList):
     categoryNodes = []
@@ -265,23 +261,20 @@ def AnalyzeJsonDataAndDraw(list):
 
     # 解析随从卡牌列表
     slaveList = getCardList(list, False)
-    murlocList = getListByCategory(slaveList, cateGoryDict["鱼人"])
-    demonList = getListByCategory(slaveList, cateGoryDict["恶魔"])
-    mechList = getListByCategory(slaveList, cateGoryDict["机械"])
-    beastList = getListByCategory(slaveList, cateGoryDict["野兽"])
-    nullList = getListByCategory(slaveList, cateGoryDict["无种类"])
+    # murlocList = getListByCategory(slaveList, cateGoryDict["鱼人"])
+    # demonList = getListByCategory(slaveList, cateGoryDict["恶魔"])
+    # mechList = getListByCategory(slaveList, cateGoryDict["机械"])
+    # beastList = getListByCategory(slaveList, cateGoryDict["野兽"])
+    # nullList = getListByCategory(slaveList, cateGoryDict["无种类"])
 
     # 解析卡牌星级
-    # murlocTierList = getTierList(slaveList, 1)
-    # print(len(murlocTierList))
 
     # # 解析卡牌特效
     # # 匹配 战吼 嘲讽 等
     analyzeEffectSlaveCards(slaveList)
 
     # 绘制图表
-    countBar = count_charts(murlocList, demonList, mechList, beastList,
-                            nullList)
+    countBar = count_charts(slaveList)
     tierBar = tier_charts(slaveList)
     countPie = count_pie(slaveList)
     effectPie = effect_pie(slaveList)
