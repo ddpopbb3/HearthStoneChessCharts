@@ -71,8 +71,15 @@ def count_charts(slaveList):
     for category in cateGoryDict.values():
         categoryCountList.append(len(getListByCategory(slaveList, category)))
     bar = (Bar().add_xaxis(list(cateGoryDict.keys())).add_yaxis(
-        "数量", categoryCountList, color=Faker.rand_color()).set_global_opts(
-            title_opts=opts.TitleOpts(title="数量分布情况")))
+        "数量",
+        categoryCountList,
+        color=Faker.rand_color(),
+    ).set_global_opts(title_opts=opts.TitleOpts(title="数量分布情况"),
+                      legend_opts=opts.LegendOpts(
+                          orient="horizontal",
+                          item_width=50,
+                          item_height=30,
+                      )))
     return bar
 
 
@@ -81,8 +88,15 @@ def tier_charts(slaveList):
     for tier in tierDict.values():
         tierCountList.append(len(getTierList(slaveList, tier)))
     bar = (Bar().add_xaxis(list(tierDict.keys())).add_yaxis(
-        "数量", tierCountList, color='#FAD860').set_global_opts(
-            title_opts=opts.TitleOpts(title="费用分布情况")))
+        "数量",
+        tierCountList,
+        color=Faker.rand_color(),
+    ).set_global_opts(title_opts=opts.TitleOpts(title="费用分布情况"),
+                      legend_opts=opts.LegendOpts(
+                          orient="horizontal",
+                          item_width=50,
+                          item_height=30,
+                      )))
     return bar
 
 
@@ -95,8 +109,15 @@ def count_pie(slaveList) -> Pie:
     c = (Pie().add(
         "", [list(z)
              for z in zip(cateGoryDict.keys(), countList)]).set_global_opts(
-                 title_opts=opts.TitleOpts(title="各种类数量分布情况")).set_series_opts(
-                     label_opts=opts.LabelOpts(formatter="{b}:  {c}")))
+                 title_opts=opts.TitleOpts(title="各种类数量分布情况"),
+                 legend_opts=opts.LegendOpts(
+                     orient="vertical",
+                     pos_left="2%",
+                     pos_top="20%",
+                     item_width=50,
+                     item_height=30,
+                 )).set_series_opts(label_opts=opts.LabelOpts(
+                     formatter="{b}:  {c}")))
     return c
 
 
@@ -109,12 +130,19 @@ def effect_pie(slaveList) -> Pie:
         "",
         [list(z)
          for z in zip(effectPatternDict.keys(), countList)]).set_global_opts(
-             title_opts=opts.TitleOpts(title="各种特效数量分布情况")).set_series_opts(
-                 label_opts=opts.LabelOpts(formatter="{b}:  {c}")))
+             title_opts=opts.TitleOpts(title="各种特效数量分布情况"),
+             legend_opts=opts.LegendOpts(
+                 orient="vertical",
+                 pos_left="2%",
+                 pos_top="20%",
+                 item_width=50,
+                 item_height=30,
+             )).set_series_opts(label_opts=opts.LabelOpts(
+                 formatter="{b}:  {c}")))
     return c
 
 
-def graph_base(slaveList) -> Graph:
+def categoryEffect_graph(slaveList) -> Graph:
 
     categories = []
     categories = getCategoryNodes(slaveList) + getEffectNodes(slaveList)
@@ -129,14 +157,14 @@ def graph_base(slaveList) -> Graph:
             links.append({"source": card.get("name"), "target": effect})
 
     nodes = []
-    for i in slaveList:
-        if i.get("minionTypeId") == 26:
+    for card in slaveList:
+        if card.get("minionTypeId") == 26:
             category = "无种类"
         else:
             category = "无种类" if category == None else invert_dict(
-                cateGoryDict)[i.get("minionTypeId")]
+                cateGoryDict)[card.get("minionTypeId")]
         nodes.append({
-            "name": i.get("name"),
+            "name": card.get("name"),
             "symbolSize": 5,
             "category": category,
         })
@@ -151,11 +179,132 @@ def graph_base(slaveList) -> Graph:
         repulsion=350,
         linestyle_opts=opts.LineStyleOpts(curve=0.2),
         is_rotate_label=True,
+        is_selected=True,
     ).set_global_opts(title_opts=opts.TitleOpts(title="各个卡牌特效种类关系图"),
-                      legend_opts=opts.LegendOpts(orient="vertical",
-                                                  pos_left="2%",
-                                                  pos_top="20%")))
+                      legend_opts=opts.LegendOpts(
+                          orient="vertical",
+                          pos_left="2%",
+                          pos_top="20%",
+                          item_width=50,
+                          item_height=30,
+                      )))
     return c
+
+
+def categoryTiert_graph(slaveList) -> Graph:
+
+    categories = []
+    categories = getCategoryNodes(slaveList) + getTierNodes(slaveList)
+    links = []
+
+    for category in cateGoryDict:
+        for card in getListByCategory(slaveList, cateGoryDict[category]):
+            links.append({"source": card.get("name"), "target": category})
+
+    for tier in tierDict:
+        for card in getTierList(slaveList, tierDict[tier]):
+            links.append({"source": card.get("name"), "target": tier})
+
+    nodes = []
+    for card in slaveList:
+        if card.get("minionTypeId") == 26:
+            category = "无种类"
+        else:
+            category = "无种类" if category == None else invert_dict(
+                cateGoryDict)[card.get("minionTypeId")]
+        nodes.append({
+            "name": card.get("name"),
+            "symbolSize": 5,
+            "category": category,
+        })
+
+    nodes += categories
+
+    c = (Graph(init_opts=opts.InitOpts(width="1600px", height="900px")).add(
+        "",
+        nodes,
+        links,
+        categories,
+        repulsion=350,
+        edge_length=150,
+        linestyle_opts=opts.LineStyleOpts(curve=0.2),
+        is_rotate_label=True,
+        is_selected=True,
+    ).set_global_opts(title_opts=opts.TitleOpts(title="各个卡牌星级种类关系图"),
+                      legend_opts=opts.LegendOpts(
+                          orient="vertical",
+                          pos_left="2%",
+                          pos_top="20%",
+                          item_width=50,
+                          item_height=30,
+                      )))
+    return c
+
+
+def tierEffect_graph(slaveList) -> Graph:
+
+    categories = []
+    categories = getTierNodes(slaveList) + getEffectNodes(slaveList)
+    links = []
+
+    for tier in tierDict:
+        for card in getTierList(slaveList, tierDict[tier]):
+            links.append({"source": card.get("name"), "target": tier})
+
+    for effect in effectPatternDict:
+        for card in getEffectList(slaveList, effect):
+            links.append({"source": card.get("name"), "target": effect})
+
+    nodes = []
+    for card in slaveList:
+        nodes.append({
+            "name":
+            card.get("name"),
+            "symbolSize":
+            5,
+            "category":
+            invert_dict(tierDict)[card["battlegrounds"]["tier"]],
+        })
+
+    nodes += categories
+
+    c = (Graph(init_opts=opts.InitOpts(
+        width="1600px",
+        height="900px",
+    )).add(
+        "",
+        nodes,
+        links,
+        categories,
+        repulsion=350,
+        linestyle_opts=opts.LineStyleOpts(curve=0.2),
+        is_rotate_label=True,
+        is_selected=True,
+    ).set_global_opts(title_opts=opts.TitleOpts(title="各个卡牌等级特效关系图"),
+                      legend_opts=opts.LegendOpts(
+                          orient="vertical",
+                          pos_left="2%",
+                          pos_top="20%",
+                          item_width=50,
+                          item_height=30,
+                      )))
+    return c
+
+
+def getTierNodes(slaveList):
+    tierNodes = []
+    for tier in tierDict:
+        tierNodes.append({
+            "name":
+            tier,
+            "symbolSize":
+            len(getTierList(slaveList, tierDict[tier])) * 3,
+            "category":
+            tier,
+            "value":
+            len(getTierList(slaveList, tierDict[tier])),
+        })
+    return tierNodes
 
 
 def getEffectNodes(slaveList):
@@ -274,12 +423,18 @@ def AnalyzeJsonDataAndDraw(list):
     analyzeEffectSlaveCards(slaveList)
 
     # 绘制图表
+    drawCharts(slaveList)
+
+
+def drawCharts(slaveList):
+    # 绘制图表
     countBar = count_charts(slaveList)
     tierBar = tier_charts(slaveList)
     countPie = count_pie(slaveList)
     effectPie = effect_pie(slaveList)
-    relationGraph = graph_base(slaveList)
-
+    categoryEffectGraph = categoryEffect_graph(slaveList)
+    categoryTierGraph = categoryTiert_graph(slaveList)
+    tierEffectGraph = tierEffect_graph(slaveList)
     # page = Page(layout=Page.SimplePageLayout)
     # page.add(countBar, tierBar, countPie, effectPie, relationGraph)
     # page.render()
@@ -289,7 +444,9 @@ def AnalyzeJsonDataAndDraw(list):
     tab.add(tierBar, "费用分布情况")
     tab.add(countPie, "各种类数量分布情况")
     tab.add(effectPie, "各种特效数量分布情况")
-    tab.add(relationGraph, "各个卡牌特效种类关系图")
+    tab.add(categoryEffectGraph, "各个卡牌特效种类关系图")
+    tab.add(categoryTierGraph, "各个卡牌星级种类关系图")
+    tab.add(tierEffectGraph, "各个卡牌星级特效关系图")
 
     tab.render()
 
