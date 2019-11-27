@@ -8,13 +8,51 @@
     
 </head>
 <body>
-    <style>.box { justify-content:center; display:flex; flex-wrap:wrap;  }; </style>
+        <style>
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 12px 16px;
+            transition: 0.3s;
+        }
+
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        .chart-container {
+            display: none;
+            padding: 6px 12px;
+            border-top: none;
+        }
+    </style>
+    <div class="tab">
+            <button class="tablinks" onclick="showChart(event, 'f21945b1f4464894b57c07aa6520f5ed')">数量分布情况</button>
+            <button class="tablinks" onclick="showChart(event, '346b5162c0574da3be088258a12d2c2c')">费用分布情况</button>
+            <button class="tablinks" onclick="showChart(event, '207c3ce38b4245f6b917aeb624d033e4')">各种类数量分布情况</button>
+            <button class="tablinks" onclick="showChart(event, '23af0c493a4842d6a810d562bfa68b60')">各种特效数量分布情况</button>
+            <button class="tablinks" onclick="showChart(event, '820d9ad7536048218a2425baad8e7852')">各个卡牌特效种类关系图</button>
+    </div>
+
     <div class="box">
-                <div id="bdac3764fca7429ea1418efeb5945a99" class="chart-container" style="width:900px; height:500px;"></div>
+                <div id="f21945b1f4464894b57c07aa6520f5ed" class="chart-container" style="width:900px; height:500px;"></div>
     <script>
-        var chart_bdac3764fca7429ea1418efeb5945a99 = echarts.init(
-            document.getElementById('bdac3764fca7429ea1418efeb5945a99'), 'white', {renderer: 'canvas'});
-        var option_bdac3764fca7429ea1418efeb5945a99 = {
+        var chart_f21945b1f4464894b57c07aa6520f5ed = echarts.init(
+            document.getElementById('f21945b1f4464894b57c07aa6520f5ed'), 'white', {renderer: 'canvas'});
+        var option_f21945b1f4464894b57c07aa6520f5ed = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
@@ -24,7 +62,7 @@
     "animationEasingUpdate": "cubicOut",
     "animationDelayUpdate": 0,
     "color": [
-        "#c23531",
+        "#bda29a",
         "#c23531",
         "#2f4554",
         "#61a0a8",
@@ -153,13 +191,13 @@
         }
     ]
 };
-        chart_bdac3764fca7429ea1418efeb5945a99.setOption(option_bdac3764fca7429ea1418efeb5945a99);
+        chart_f21945b1f4464894b57c07aa6520f5ed.setOption(option_f21945b1f4464894b57c07aa6520f5ed);
     </script>
-<br/>                <div id="019fb00615e24464a99935fd5376bdf4" class="chart-container" style="width:900px; height:500px;"></div>
+                <div id="346b5162c0574da3be088258a12d2c2c" class="chart-container" style="width:900px; height:500px;"></div>
     <script>
-        var chart_019fb00615e24464a99935fd5376bdf4 = echarts.init(
-            document.getElementById('019fb00615e24464a99935fd5376bdf4'), 'white', {renderer: 'canvas'});
-        var option_019fb00615e24464a99935fd5376bdf4 = {
+        var chart_346b5162c0574da3be088258a12d2c2c = echarts.init(
+            document.getElementById('346b5162c0574da3be088258a12d2c2c'), 'white', {renderer: 'canvas'});
+        var option_346b5162c0574da3be088258a12d2c2c = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
@@ -300,13 +338,13 @@
         }
     ]
 };
-        chart_019fb00615e24464a99935fd5376bdf4.setOption(option_019fb00615e24464a99935fd5376bdf4);
+        chart_346b5162c0574da3be088258a12d2c2c.setOption(option_346b5162c0574da3be088258a12d2c2c);
     </script>
-<br/>                <div id="4f27f404509646798fab6e4113652fd8" class="chart-container" style="width:900px; height:500px;"></div>
+                <div id="207c3ce38b4245f6b917aeb624d033e4" class="chart-container" style="width:900px; height:500px;"></div>
     <script>
-        var chart_4f27f404509646798fab6e4113652fd8 = echarts.init(
-            document.getElementById('4f27f404509646798fab6e4113652fd8'), 'white', {renderer: 'canvas'});
-        var option_4f27f404509646798fab6e4113652fd8 = {
+        var chart_207c3ce38b4245f6b917aeb624d033e4 = echarts.init(
+            document.getElementById('207c3ce38b4245f6b917aeb624d033e4'), 'white', {renderer: 'canvas'});
+        var option_207c3ce38b4245f6b917aeb624d033e4 = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
@@ -424,13 +462,13 @@
         }
     ]
 };
-        chart_4f27f404509646798fab6e4113652fd8.setOption(option_4f27f404509646798fab6e4113652fd8);
+        chart_207c3ce38b4245f6b917aeb624d033e4.setOption(option_207c3ce38b4245f6b917aeb624d033e4);
     </script>
-<br/>                <div id="507a55e247fe49b08f9e400e6b0ef315" class="chart-container" style="width:1200px; height:500px;"></div>
+                <div id="23af0c493a4842d6a810d562bfa68b60" class="chart-container" style="width:1200px; height:500px;"></div>
     <script>
-        var chart_507a55e247fe49b08f9e400e6b0ef315 = echarts.init(
-            document.getElementById('507a55e247fe49b08f9e400e6b0ef315'), 'white', {renderer: 'canvas'});
-        var option_507a55e247fe49b08f9e400e6b0ef315 = {
+        var chart_23af0c493a4842d6a810d562bfa68b60 = echarts.init(
+            document.getElementById('23af0c493a4842d6a810d562bfa68b60'), 'white', {renderer: 'canvas'});
+        var option_23af0c493a4842d6a810d562bfa68b60 = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
@@ -505,18 +543,6 @@
                 {
                     "name": "\u590d\u751f",
                     "value": 0
-                },
-                {
-                    "name": "\u51b2\u950b",
-                    "value": 1
-                },
-                {
-                    "name": "\u7a81\u88ad",
-                    "value": 0
-                },
-                {
-                    "name": "\u8fc7\u8f7d",
-                    "value": 0
                 }
             ],
             "radius": [
@@ -552,10 +578,7 @@
                 "\u5267\u6bd2",
                 "\u8d85\u6740",
                 "\u98ce\u6012",
-                "\u590d\u751f",
-                "\u51b2\u950b",
-                "\u7a81\u88ad",
-                "\u8fc7\u8f7d"
+                "\u590d\u751f"
             ],
             "selected": {},
             "show": true,
@@ -583,13 +606,13 @@
         }
     ]
 };
-        chart_507a55e247fe49b08f9e400e6b0ef315.setOption(option_507a55e247fe49b08f9e400e6b0ef315);
+        chart_23af0c493a4842d6a810d562bfa68b60.setOption(option_23af0c493a4842d6a810d562bfa68b60);
     </script>
-<br/>                <div id="ba43fa5413cc4d3f8181f0986b6cdb5f" class="chart-container" style="width:1600px; height:900px;"></div>
+                <div id="820d9ad7536048218a2425baad8e7852" class="chart-container" style="width:1600px; height:900px;"></div>
     <script>
-        var chart_ba43fa5413cc4d3f8181f0986b6cdb5f = echarts.init(
-            document.getElementById('ba43fa5413cc4d3f8181f0986b6cdb5f'), 'white', {renderer: 'canvas'});
-        var option_ba43fa5413cc4d3f8181f0986b6cdb5f = {
+        var chart_820d9ad7536048218a2425baad8e7852 = echarts.init(
+            document.getElementById('820d9ad7536048218a2425baad8e7852'), 'white', {renderer: 'canvas'});
+        var option_820d9ad7536048218a2425baad8e7852 = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
@@ -630,7 +653,7 @@
             "layout": "force",
             "symbolSize": 10,
             "circular": {
-                "rotateLabel": false
+                "rotateLabel": true
             },
             "force": {
                 "repulsion": 350,
@@ -1059,145 +1082,173 @@
                 },
                 {
                     "name": "\u9c7c\u4eba",
-                    "symbolSize": 45,
+                    "symbolSize": 27,
                     "category": "\u9c7c\u4eba",
                     "value": 9
                 },
                 {
                     "name": "\u6076\u9b54",
-                    "symbolSize": 45,
+                    "symbolSize": 27,
                     "category": "\u6076\u9b54",
                     "value": 9
                 },
                 {
                     "name": "\u673a\u68b0",
-                    "symbolSize": 115,
+                    "symbolSize": 69,
                     "category": "\u673a\u68b0",
                     "value": 23
                 },
                 {
                     "name": "\u91ce\u517d",
-                    "symbolSize": 90,
+                    "symbolSize": 54,
                     "category": "\u91ce\u517d",
                     "value": 18
                 },
                 {
                     "name": "\u65e0\u79cd\u7c7b",
-                    "symbolSize": 130,
+                    "symbolSize": 78,
                     "category": "\u65e0\u79cd\u7c7b",
                     "value": 26
                 },
                 {
                     "name": "\u6218\u543c",
-                    "symbolSize": 110,
+                    "symbolSize": 66,
+                    "category": "\u6218\u543c",
                     "value": 22
                 },
                 {
                     "name": "\u5632\u8bbd",
-                    "symbolSize": 70,
+                    "symbolSize": 42,
+                    "category": "\u5632\u8bbd",
                     "value": 14
                 },
                 {
                     "name": "\u5723\u76fe",
-                    "symbolSize": 40,
+                    "symbolSize": 24,
+                    "category": "\u5723\u76fe",
                     "value": 8
                 },
                 {
                     "name": "\u78c1\u529b",
-                    "symbolSize": 10,
+                    "symbolSize": 6,
+                    "category": "\u78c1\u529b",
                     "value": 2
                 },
                 {
                     "name": "\u4ea1\u8bed",
-                    "symbolSize": 115,
+                    "symbolSize": 69,
+                    "category": "\u4ea1\u8bed",
                     "value": 23
                 },
                 {
                     "name": "\u5267\u6bd2",
-                    "symbolSize": 10,
+                    "symbolSize": 6,
+                    "category": "\u5267\u6bd2",
                     "value": 2
                 },
                 {
                     "name": "\u8d85\u6740",
-                    "symbolSize": 5,
+                    "symbolSize": 3,
+                    "category": "\u8d85\u6740",
                     "value": 1
                 },
                 {
                     "name": "\u98ce\u6012",
-                    "symbolSize": 5,
+                    "symbolSize": 3,
+                    "category": "\u98ce\u6012",
                     "value": 1
+                },
+                {
+                    "name": "\u590d\u751f",
+                    "symbolSize": 0,
+                    "category": "\u590d\u751f",
+                    "value": 0
                 }
             ],
             "categories": [
                 {
                     "name": "\u9c7c\u4eba",
-                    "symbolSize": 45,
+                    "symbolSize": 27,
                     "category": "\u9c7c\u4eba",
                     "value": 9
                 },
                 {
                     "name": "\u6076\u9b54",
-                    "symbolSize": 45,
+                    "symbolSize": 27,
                     "category": "\u6076\u9b54",
                     "value": 9
                 },
                 {
                     "name": "\u673a\u68b0",
-                    "symbolSize": 115,
+                    "symbolSize": 69,
                     "category": "\u673a\u68b0",
                     "value": 23
                 },
                 {
                     "name": "\u91ce\u517d",
-                    "symbolSize": 90,
+                    "symbolSize": 54,
                     "category": "\u91ce\u517d",
                     "value": 18
                 },
                 {
                     "name": "\u65e0\u79cd\u7c7b",
-                    "symbolSize": 130,
+                    "symbolSize": 78,
                     "category": "\u65e0\u79cd\u7c7b",
                     "value": 26
                 },
                 {
                     "name": "\u6218\u543c",
-                    "symbolSize": 110,
+                    "symbolSize": 66,
+                    "category": "\u6218\u543c",
                     "value": 22
                 },
                 {
                     "name": "\u5632\u8bbd",
-                    "symbolSize": 70,
+                    "symbolSize": 42,
+                    "category": "\u5632\u8bbd",
                     "value": 14
                 },
                 {
                     "name": "\u5723\u76fe",
-                    "symbolSize": 40,
+                    "symbolSize": 24,
+                    "category": "\u5723\u76fe",
                     "value": 8
                 },
                 {
                     "name": "\u78c1\u529b",
-                    "symbolSize": 10,
+                    "symbolSize": 6,
+                    "category": "\u78c1\u529b",
                     "value": 2
                 },
                 {
                     "name": "\u4ea1\u8bed",
-                    "symbolSize": 115,
+                    "symbolSize": 69,
+                    "category": "\u4ea1\u8bed",
                     "value": 23
                 },
                 {
                     "name": "\u5267\u6bd2",
-                    "symbolSize": 10,
+                    "symbolSize": 6,
+                    "category": "\u5267\u6bd2",
                     "value": 2
                 },
                 {
                     "name": "\u8d85\u6740",
-                    "symbolSize": 5,
+                    "symbolSize": 3,
+                    "category": "\u8d85\u6740",
                     "value": 1
                 },
                 {
                     "name": "\u98ce\u6012",
-                    "symbolSize": 5,
+                    "symbolSize": 3,
+                    "category": "\u98ce\u6012",
                     "value": 1
+                },
+                {
+                    "name": "\u590d\u751f",
+                    "symbolSize": 0,
+                    "category": "\u590d\u751f",
+                    "value": 0
                 }
             ],
             "edgeSymbol": [
@@ -1856,7 +1907,8 @@
                 "\u4ea1\u8bed",
                 "\u5267\u6bd2",
                 "\u8d85\u6740",
-                "\u98ce\u6012"
+                "\u98ce\u6012",
+                "\u590d\u751f"
             ],
             "selected": {
                 "\u9c7c\u4eba": true,
@@ -1871,7 +1923,8 @@
                 "\u4ea1\u8bed": true,
                 "\u5267\u6bd2": true,
                 "\u8d85\u6740": true,
-                "\u98ce\u6012": true
+                "\u98ce\u6012": true,
+                "\u590d\u751f": true
             },
             "show": true,
             "left": "2%",
@@ -1901,10 +1954,34 @@
         }
     ]
 };
-        chart_ba43fa5413cc4d3f8181f0986b6cdb5f.setOption(option_ba43fa5413cc4d3f8181f0986b6cdb5f);
+        chart_820d9ad7536048218a2425baad8e7852.setOption(option_820d9ad7536048218a2425baad8e7852);
     </script>
-<br/>    </div>
+    </div>
+
     <script>
+    </script>
+    <script>
+        (function() {
+            containers = document.getElementsByClassName("chart-container");
+            if(containers.length > 0) {
+                containers[0].style.display = "block";
+            }
+        })()
+
+        function showChart(evt, chartID) {
+            let containers = document.getElementsByClassName("chart-container");
+            for (let i = 0; i < containers.length; i++) {
+                containers[i].style.display = "none";
+            }
+
+            let tablinks = document.getElementsByClassName("tablinks");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = "tablinks";
+            }
+
+            document.getElementById(chartID).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
     </script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 from pyecharts.faker import Faker
 from pyecharts import options as opts
-from pyecharts.charts import Bar, Grid, Line, Scatter, Pie, Page, Graph
+from pyecharts.charts import Bar, Grid, Line, Scatter, Pie, Page, Graph, Tab
 
 import requests
 import os
@@ -20,36 +20,25 @@ effectPatternDict = {
     "超杀": "Overkill",
     "风怒": "WindFury",
     "复生": "Reborn",
-    "冲锋": "Rush",
-    "突袭": "Lifesteal",
-    "过载": "Overload",
+    # "冲锋": "Rush",
+    # "突袭": "Lifesteal",
+    # "过载": "Overload",
 }
 
 
-def getHeroList(map):
+def getCardList(map, isHero):
     heroMap = []
     for hero in map:
         battlegrounds = hero["battlegrounds"]
-        if battlegrounds["hero"] == True:
+        if battlegrounds["hero"] == isHero:
             heroMap.append(hero)
     return heroMap
-
-
-def getSlaveList(map):
-    slaveMap = []
-    for hero in map:
-        battlegrounds = hero["battlegrounds"]
-        if battlegrounds["hero"] == False:
-            slaveMap.append(hero)
-    return slaveMap
 
 
 def getListByCategory(map, category):
     cateGoryList = []
     for card in map:
         if card["minionTypeId"] == category or card["minionTypeId"] == 26:
-            card["category"] = "无种类" if category == None else invert_dict(
-                cateGoryDict)[category]
             cateGoryList.append(card)
     return cateGoryList
 
@@ -123,137 +112,41 @@ def effect_pie(slaveList) -> Pie:
     for effect in effectPatternDict.keys():
         countList.append(len(getEffectList(slaveList, effect)))
 
-    c = (
-        Pie(init_opts=opts.InitOpts(width="1200px")).add("",
-                  [list(z) for z in zip(effectPatternDict.keys(), countList)])
-        .set_global_opts(title_opts=opts.TitleOpts(title="各种特效数量分布情况"))
-        .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}:  {c}")))
+    c = (Pie(init_opts=opts.InitOpts(width="1200px")).add(
+        "",
+        [list(z)
+         for z in zip(effectPatternDict.keys(), countList)]).set_global_opts(
+             title_opts=opts.TitleOpts(title="各种特效数量分布情况")).set_series_opts(
+                 label_opts=opts.LabelOpts(formatter="{b}:  {c}")))
     return c
 
 
 def graph_base(slaveList) -> Graph:
-    murlocList = getListByCategory(slaveList, cateGoryDict["鱼人"])
-    demonList = getListByCategory(slaveList, cateGoryDict["恶魔"])
-    mechList = getListByCategory(slaveList, cateGoryDict["机械"])
-    beastList = getListByCategory(slaveList, cateGoryDict["野兽"])
-    nullList = getListByCategory(slaveList, cateGoryDict["无种类"])
-    BattleCryList = getEffectList(slaveList, "战吼")
-    TauntList = getEffectList(slaveList, "嘲讽")
-    DivineShieldList = getEffectList(slaveList, "圣盾")
-    MagneticList = getEffectList(slaveList, "磁力")
-    DeathRattleList = getEffectList(slaveList, "亡语")
-    PoisonousList = getEffectList(slaveList, "剧毒")
-    OverkillList = getEffectList(slaveList, "超杀")
-    WindFuryList = getEffectList(slaveList, "风怒")
-
-    categories = [
-        {
-            "name": "鱼人",
-            "symbolSize": len(murlocList) * 5,
-            "category": "鱼人",
-            "value": len(murlocList),
-        },
-        {
-            "name": "恶魔",
-            "symbolSize": len(demonList) * 5,
-            "category": "恶魔",
-            "value": len(demonList),
-        },
-        {
-            "name": "机械",
-            "symbolSize": len(mechList) * 5,
-            "category": "机械",
-            "value": len(mechList),
-        },
-        {
-            "name": "野兽",
-            "symbolSize": len(beastList) * 5,
-            "category": "野兽",
-            "value": len(beastList),
-        },
-        {
-            "name": "无种类",
-            "symbolSize": len(nullList) * 5,
-            "category": "无种类",
-            "value": len(nullList),
-        },
-        {
-            "name": "战吼",
-            "symbolSize": len(BattleCryList) * 5,
-            "value": len(BattleCryList),
-        },
-        {
-            "name": "嘲讽",
-            "symbolSize": len(TauntList) * 5,
-            "value": len(TauntList),
-        },
-        {
-            "name": "圣盾",
-            "symbolSize": len(DivineShieldList) * 5,
-            "value": len(DivineShieldList),
-        },
-        {
-            "name": "磁力",
-            "symbolSize": len(MagneticList) * 5,
-            "value": len(MagneticList),
-        },
-        {
-            "name": "亡语",
-            "symbolSize": len(DeathRattleList) * 5,
-            "value": len(DeathRattleList),
-        },
-        {
-            "name": "剧毒",
-            "symbolSize": len(PoisonousList) * 5,
-            "value": len(PoisonousList),
-        },
-        {
-            "name": "超杀",
-            "symbolSize": len(OverkillList) * 5,
-            "value": len(OverkillList),
-        },
-        {
-            "name": "风怒",
-            "symbolSize": len(WindFuryList) * 5,
-            "value": len(WindFuryList),
-        },
-    ]
+    
+    categories = []
+    categories = getCategoryNodes(slaveList) + getEffectNodes(slaveList)
     links = []
-    for i in murlocList:
-        links.append({"source": i.get("name"), "target": "鱼人"})
-    for i in demonList:
-        links.append({"source": i.get("name"), "target": "恶魔"})
-    for i in mechList:
-        links.append({"source": i.get("name"), "target": "机械"})
-    for i in beastList:
-        links.append({"source": i.get("name"), "target": "野兽"})
-    for i in nullList:
-        links.append({"source": i.get("name"), "target": "无种类"})
 
-    for i in BattleCryList:
-        links.append({"source": i.get("name"), "target": "战吼"})
-    for i in TauntList:
-        links.append({"source": i.get("name"), "target": "嘲讽"})
-    for i in DivineShieldList:
-        links.append({"source": i.get("name"), "target": "圣盾"})
-    for i in MagneticList:
-        links.append({"source": i.get("name"), "target": "磁力"})
-    for i in DeathRattleList:
-        links.append({"source": i.get("name"), "target": "亡语"})
-    for i in PoisonousList:
-        links.append({"source": i.get("name"), "target": "剧毒"})
-    for i in OverkillList:
-        links.append({"source": i.get("name"), "target": "超杀"})
-    for i in WindFuryList:
-        links.append({"source": i.get("name"), "target": "风怒"})
+    for category in cateGoryDict:
+        for card in getListByCategory(slaveList, cateGoryDict[category]):
+            links.append({"source": card.get("name"), "target": category})
+    
+    for effect in effectPatternDict:
+        for card in getEffectList(slaveList, effect):
+            links.append({"source": card.get("name"), "target": effect})
 
     nodes = []
     for i in slaveList:
+        if i.get("minionTypeId") == 26:
+            category = "无种类"
+        else:
+            category = "无种类" if category == None else invert_dict(cateGoryDict)[i.get("minionTypeId")]
         nodes.append({
             "name": i.get("name"),
             "symbolSize": 5,
-            "category": i.get("category")
+            "category": category,
         })
+    
     nodes += categories
 
     c = (Graph(init_opts=opts.InitOpts(width="1600px", height="900px")).add(
@@ -263,56 +156,45 @@ def graph_base(slaveList) -> Graph:
         categories,
         repulsion=350,
         linestyle_opts=opts.LineStyleOpts(curve=0.2),
+        is_rotate_label=True,
     ).set_global_opts(title_opts=opts.TitleOpts(title="各个卡牌特效种类关系图"),
                       legend_opts=opts.LegendOpts(orient="vertical",
                                                   pos_left="2%",
                                                   pos_top="20%")))
     return c
 
+def getEffectNodes(slaveList):
+    effectNodes = []
+    for effect in effectPatternDict:
+        effectNodes.append({
+            "name":
+            effect,
+            "symbolSize":
+            len(getEffectList(slaveList, effect)) * 3,
+            "category":
+            effect,
+            "value":
+            len(getEffectList(slaveList, effect)),
+        })
+    return effectNodes
 
-def invert_dict(m):
-    return dict(zip(m.values(), m.keys()))
+def getCategoryNodes(slaveList):
+    categoryNodes = []
+    for category in cateGoryDict:
+        categoryNodes.append({
+            "name":
+            category,
+            "symbolSize":
+            len(getListByCategory(slaveList, cateGoryDict[category])) * 3,
+            "category":
+            category,
+            "value":
+            len(getListByCategory(slaveList, cateGoryDict[category])),
+        })
+    return categoryNodes
 
 
-def downLoadPage():
-    # 下载最新的炉石战旗数据并保存到本地
-    url = "http://hs.blizzard.cn/action/hs/cards/battleround?sort=tier&order=asc&type=hero%2Cminion&tier=all&viewMode=table&collectible=0%2C1&pageSize=200&locale=zh_cn"
-    jsonContent = requests.get(url).content.decode("utf-8")
-    save_path = u"战棋"
-    filename = u"英雄及卡牌全数据"
-    jsonContent = jsonContent.encode("utf-8")
-    StringListSave(save_path, filename, jsonContent)
-    # print(json)
-    dict = json.loads(s=jsonContent)
-    list = dict["cards"]
-    # python的json.dumps方法默认会输出成这种格式"\u535a\u5ba2\u56ed",。
-    # 要输出中文需要指定ensure_ascii参数为False，如下代码片段：
-    # json.dumps({'text':"中文"},ensure_ascii=False)
-    cards = json.dumps(list, ensure_ascii=False).encode("utf-8")
-    filename = u"卡牌全数据"
-    StringListSave(save_path, filename, cards)
-    # print(map)
-
-    # 解析战旗卡牌并分类
-    AnalyzeJsonDataAndDraw(list)
-
-
-def AnalyzeJsonDataAndDraw(list):
-
-    # 解析英雄卡牌列表
-    # heroList = getHeroList(list)
-
-    slaveList = getSlaveList(list)
-    murlocList = getListByCategory(slaveList, cateGoryDict["鱼人"])
-    demonList = getListByCategory(slaveList, cateGoryDict["恶魔"])
-    mechList = getListByCategory(slaveList, cateGoryDict["机械"])
-    beastList = getListByCategory(slaveList, cateGoryDict["野兽"])
-    nullList = getListByCategory(slaveList, cateGoryDict["无种类"])
-
-    # 解析卡牌星级
-    # murlocTierList = getTierList(slaveList, 1)
-    # print(len(murlocTierList))
-
+def analyzeEffectSlaveCards(slaveList):
     # # 解析卡牌特效
     # # 匹配 战吼 嘲讽 等
     BattleCryList = getEffectList(slaveList, "战吼")
@@ -348,6 +230,55 @@ def AnalyzeJsonDataAndDraw(list):
     for z in WindFuryList:
         print(z["name"])
 
+
+def invert_dict(m):
+    return dict(zip(m.values(), m.keys()))
+
+
+def downLoadPage():
+    # 下载最新的炉石战旗数据并保存到本地
+    url = "http://hs.blizzard.cn/action/hs/cards/battleround?sort=tier&order=asc&type=hero%2Cminion&tier=all&viewMode=table&collectible=0%2C1&pageSize=200&locale=zh_cn"
+    jsonContent = requests.get(url).content.decode("utf-8")
+    save_path = u"战棋"
+    filename = u"英雄及卡牌全数据"
+    jsonContent = jsonContent.encode("utf-8")
+    StringListSave(save_path, filename, jsonContent)
+    # print(json)
+    dict = json.loads(s=jsonContent)
+    list = dict["cards"]
+    # python的json.dumps方法默认会输出成这种格式"\u535a\u5ba2\u56ed",。
+    # 要输出中文需要指定ensure_ascii参数为False，如下代码片段：
+    # json.dumps({'text':"中文"},ensure_ascii=False)
+    cards = json.dumps(list, ensure_ascii=False).encode("utf-8")
+    filename = u"卡牌全数据"
+    StringListSave(save_path, filename, cards)
+    # print(map)
+
+    # 解析战旗卡牌并分类
+    AnalyzeJsonDataAndDraw(list)
+
+
+def AnalyzeJsonDataAndDraw(list):
+
+    # 解析英雄卡牌列表
+    heroList = getCardList(list, True)
+
+    # 解析随从卡牌列表
+    slaveList = getCardList(list, False)
+    murlocList = getListByCategory(slaveList, cateGoryDict["鱼人"])
+    demonList = getListByCategory(slaveList, cateGoryDict["恶魔"])
+    mechList = getListByCategory(slaveList, cateGoryDict["机械"])
+    beastList = getListByCategory(slaveList, cateGoryDict["野兽"])
+    nullList = getListByCategory(slaveList, cateGoryDict["无种类"])
+
+    # 解析卡牌星级
+    # murlocTierList = getTierList(slaveList, 1)
+    # print(len(murlocTierList))
+
+    # # 解析卡牌特效
+    # # 匹配 战吼 嘲讽 等
+    analyzeEffectSlaveCards(slaveList)
+
     # 绘制图表
     countBar = count_charts(murlocList, demonList, mechList, beastList,
                             nullList)
@@ -356,17 +287,18 @@ def AnalyzeJsonDataAndDraw(list):
     effectPie = effect_pie(slaveList)
     relationGraph = graph_base(slaveList)
 
-    page = Page(layout=Page.SimplePageLayout)
-    page.add(countBar, tierBar, countPie, effectPie, relationGraph)
-    page.render()
+    # page = Page(layout=Page.SimplePageLayout)
+    # page.add(countBar, tierBar, countPie, effectPie, relationGraph)
+    # page.render()
 
-    # grid = (Grid()
-    # .add(countBar, grid_opts=opts.GridOpts(pos_top="60%"))
-    # .add(tierBar, grid_opts=opts.GridOpts(pos_top="60%"))
-    # .add(countPie, grid_opts=opts.GridOpts(pos_top="60%")))
+    tab = Tab()
+    tab.add(countBar, "数量分布情况")
+    tab.add(tierBar, "费用分布情况")
+    tab.add(countPie, "各种类数量分布情况")
+    tab.add(effectPie, "各种特效数量分布情况")
+    tab.add(relationGraph, "各个卡牌特效种类关系图")
 
-    # grid.render()
-    # grid_vertical().render()
+    tab.render()
 
 
 def StringListSave(save_path, filename, slist):
