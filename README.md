@@ -18,7 +18,7 @@
 ![Image text](https://github.com/ddpopbb3/HearthStoneChessCharts/raw/master/img-folder/微信截图_20191127010359.png)
 ![Image text](https://github.com/ddpopbb3/HearthStoneChessCharts/raw/master/img-folder/微信截图_20191127010413.png)
 ![Image text](https://github.com/ddpopbb3/HearthStoneChessCharts/raw/master/img-folder/微信截图_20191127010643.png)
-![Image text](https://github.com/ddpopbb3/HearthStoneChessCharts/raw/master/img-folder/微信截图_20191127010727.png)
+![Image text](https://github.com/ddpopbb3/HearthStoneChessCharts/raw/master/img-folder/微信截图_20191127153047.png)
 
 ## ⛏ 代码质量
 * emmmmm
