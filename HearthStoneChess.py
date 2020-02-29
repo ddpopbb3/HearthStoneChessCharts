@@ -8,7 +8,7 @@ import json
 import codecs
 import re
 
-cateGoryDict = {"鱼人": 14, "恶魔": 15, "机械": 17, "野兽": 20, "无种类": None}
+cateGoryDict = {"鱼人": 14, "恶魔": 15, "机械": 17, "野兽": 20, "龙":24, "无种类": None}
 
 effectPatternDict = {
     "战吼": "BattleCry",
@@ -406,15 +406,13 @@ def downLoadPage():
 def AnalyzeJsonDataAndDraw(list):
 
     # 解析英雄卡牌列表
-    heroList = getCardList(list, True)
+    heroList = getCardList(list, isHero=True)
 
     # 解析随从卡牌列表
-    slaveList = getCardList(list, False)
-
-    # 解析卡牌星级
+    slaveList = getCardList(list, isHero=False)
 
     # 解析卡牌特效 匹配 战吼 嘲讽 等
-    analyzeEffectSlaveCards(slaveList)
+    analyzeEffectSlaveCards(slaveList) 
 
     # 绘制图表
     drawCharts(slaveList)
