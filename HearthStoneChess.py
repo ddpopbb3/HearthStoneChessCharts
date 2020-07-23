@@ -381,7 +381,9 @@ def invert_dict(m):
 def downLoadPage():
     # 下载最新的炉石战旗数据并保存到本地
     url = "http://hs.blizzard.cn/action/hs/cards/battleround?sort=tier&order=asc&type=hero%2Cminion&tier=all&viewMode=table&collectible=0%2C1&pageSize=200&locale=zh_cn"
-    jsonContent = requests.get(url).content.decode("utf-8")
+    s = requests.session()
+    s.keep_alive = False
+    jsonContent = requests.get(url,verify=False).content.decode("utf-8")
     save_path = u"战棋"
     filename = u"英雄及卡牌全数据"
     jsonContent = jsonContent.encode("utf-8")
@@ -404,15 +406,13 @@ def downLoadPage():
 def AnalyzeJsonDataAndDraw(list):
 
     # 解析英雄卡牌列表
-    heroList = getCardList(list, True)
+    heroList = getCardList(list, isHero=True)
 
     # 解析随从卡牌列表
-    slaveList = getCardList(list, False)
-
-    # 解析卡牌星级
+    slaveList = getCardList(list, isHero=False)
 
     # 解析卡牌特效 匹配 战吼 嘲讽 等
-    analyzeEffectSlaveCards(slaveList)
+    analyzeEffectSlaveCards(slaveList) 
 
     # 绘制图表
     drawCharts(slaveList)
