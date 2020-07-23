@@ -437,7 +437,7 @@ def drawCharts(slaveList):
     tab.add(categoryTierGraph, "各个卡牌星级种类关系图")
     tab.add(tierEffectGraph, "各个卡牌星级特效关系图")
 
-    tab.render()
+    tab.render("index.html")
 
 
 def StringListSave(save_path, filename, slist):
