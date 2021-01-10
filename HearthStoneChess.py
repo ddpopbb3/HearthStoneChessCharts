@@ -8,7 +8,7 @@ import json
 import codecs
 import re
 
-cateGoryDict = {"鱼人": 14, "恶魔": 15, "机械": 17, "野兽": 20, "龙": 24, "海盗": 23, "无种类": None}
+cateGoryDict = {"鱼人": 14, "恶魔": 15, "机械": 17, "野兽": 20, "龙": 24, "海盗": 23, "元素": 18, "无种类": None}
 
 effectPatternDict = {
     "战吼": "BattleCry",
