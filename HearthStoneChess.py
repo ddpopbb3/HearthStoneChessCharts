@@ -8,7 +8,16 @@ import json
 import codecs
 import re
 
-cateGoryDict = {"鱼人": 14, "恶魔": 15, "机械": 17, "野兽": 20, "龙": 24, "海盗": 23, "元素": 18, "无种类": None}
+cateGoryDict = {
+    "鱼人": 14,
+    "恶魔": 15,
+    "机械": 17,
+    "野兽": 20,
+    "龙": 24,
+    "海盗": 23,
+    "元素": 18,
+    "野猪人": 43,
+    "无种类": None}
 
 effectPatternDict = {
     "战吼": "BattleCry",
@@ -380,10 +389,11 @@ def invert_dict(m):
 
 def downLoadPage():
     # 下载最新的炉石战旗数据并保存到本地
-    url = "http://hs.blizzard.cn/action/hs/cards/battleround?sort=tier&order=asc&type=hero%2Cminion&tier=all&viewMode=table&collectible=0%2C1&pageSize=200&locale=zh_cn"
+    url = "https://hs.blizzard.cn/action/hs/cards/battlegrounds?sort=tier&order=asc&type=hero%2Cminion&tier=all&viewMode=table&collectible=0%2C1&pageSize=200&locale=zh_cn"
     s = requests.session()
     s.keep_alive = False
-    jsonContent = requests.get(url,verify=False).content.decode("utf-8")
+    requests.packages.urllib3.disable_warnings()
+    jsonContent = requests.get(url, verify=False).content.decode("utf-8")
     save_path = u"战棋"
     filename = u"英雄及卡牌全数据"
     jsonContent = jsonContent.encode("utf-8")
