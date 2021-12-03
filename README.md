@@ -1,3 +1,5 @@
+![Alt](https://repobeats.axiom.co/api/embed/cb9dd87bea35ca39cae85363204e2842c3f1d010.svg "Repobeats analytics image")
+
 ## 📣 简介
 
 * 最近迷上炉石传说战棋~~再来亿把~~ ，和狗哥一起上分~~摸鱼~~
