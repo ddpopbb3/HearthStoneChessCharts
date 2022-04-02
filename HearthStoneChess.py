@@ -28,8 +28,8 @@ effectPatternDict = {
     "剧毒": "Poisonous",
     "风怒": "WindFury",
     "超杀": "Overkill",
+    "复生": "Reborn",
     # 下面这几种特效在战棋模式没卵用，就不做统计了
-    # "复生": "Reborn",
     # "冲锋": "Rush",
     # "突袭": "Lifesteal",
     # "过载": "Overload",
