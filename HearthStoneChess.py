@@ -17,6 +17,7 @@ cateGoryDict = {
     "海盗": 23,
     "元素": 18,
     "野猪人": 43,
+    "纳迦": 92,
     "无种类": None}
 
 effectPatternDict = {
